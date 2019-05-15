@@ -8,7 +8,7 @@ import {
     StyleSheet,
     ActivityIndicator,
     KeyboardAvoidingView,
-    TextInput,AsyncStorage
+    TextInput,AsyncStorage,Platform
 } from 'react-native'
 import {inject,observer} from 'mobx-react'
 import {observable} from 'mobx'
@@ -55,22 +55,32 @@ class Forgot extends  Component{
      }
    
  } 
-    
+ 
   render(){
       return(
           <SafeAreaView style={{flex:1,alignItems:'center'}}>
+          <KeyboardAwareScrollView
+            
+              >
           <ScrollView contentContainerStyle={{alignItems:'center'}}>
               <LinearGradient colors={['#ff7e5f','#feb47b']} 
               style={{width:sty.w,height:sty.h*.45,alignItems:'center'}}>
                 <Text style={{fontSize:20,color:'white',marginTop:sty.h*.06,letterSpacing:2}}>便捷生活 快乐你我</Text>
-                <Image source={require('../img/logobai.png')} style={{width:sty.w*.6,height:sty.w*.6}}/>
+                {
+                    Platform.OS=='ios'?
+                    <Image source={require('../img/logobai.png')} style={{width:sty.w*.6,height:sty.w*.6}}/>
+                    :
+                    <Image source={require('../img/azlogo.png')} style={{width:sty.w*.6,height:sty.w*.6}}/>
+
+                }
+
               </LinearGradient>
-              <KeyboardAvoidingView  
+              {/* <KeyboardAvoidingView  
               behavior="padding"
              keyboardVerticalOffset={250}
-      >
+      > */}
               <View style={{
-                  width:sty.w*.9,
+                width:sty.w*.9,
                 // height:sty.h*.3,
                 backgroundColor:'white',
                 shadowColor:'#feb47b',
@@ -80,30 +90,38 @@ class Forgot extends  Component{
                 marginTop:-sty.h*.15,
                 borderRadius:8,
                 justifyContent:'center',
-              
+                borderWidth:1,
+                borderColor:'#feb47b'
                 }}>
                 <View style={ys.input}>
-                    <Ionicons name={'ios-person'} size={25} color={'#feb47b'}/>
+                    <View style={{width:'8%'}}>
+                    <Ionicons name={'ios-person'} size={23} color={'#feb47b'}/>
+                    </View>
                     <TextInput style={ys.textin} placeholder="请输入账号" 
                      onChangeText={(zh)=>{
                      this.setState({zh})
                     }}/>
                 </View>
                 <View style={ys.input}>
+                <View style={{width:'8%'}}>
                     <Ionicons name={'ios-call'} size={23} color={'#feb47b'}/>
+                </View>
                     <TextInput style={ys.textin}
                      placeholder="请输入电话" 
-                    secureTextEntry={true} 
+                    // secureTextEntry={true} 
                     onChangeText={(mm)=>{
-                    this.setState({mm})
+                    this.setState({mm}) 
                     }}
                     />
                 </View>
                 <View style={ys.input}>
+                <View style={{width:'8%'}}>
                     <Ionicons name={'ios-mail'} size={25} color={'#feb47b'}/>
+                  </View>
                     <TextInput style={ys.textin}
                      placeholder="请输入邮箱" 
-                    secureTextEntry={true} 
+                     
+                    // secureTextEntry={true} 
                     onChangeText={(email)=>{
                     this.setState({email})
                     }}
@@ -127,8 +145,9 @@ class Forgot extends  Component{
                 
 
               </View>
-              </KeyboardAvoidingView>
+              {/* </KeyboardAvoidingView> */}
           </ScrollView>
+          </KeyboardAwareScrollView>
           <Toast
 
 ref="toast"
@@ -145,15 +164,20 @@ opacity={0.8}
 }
 const ys=StyleSheet.create({
     textin:{
-        height:'100%',width:'80%',fontSize:18,marginLeft:10
+        width:'90%',
+         height:sty.h*.06,
+         padding:5,
+         marginLeft:10,
+        //  backgroundColor:'red'
     },
     input:{
         width:'100%',
-        height:sty.h*.06,
+        // height:sty.h*.06,
+        padding:5,
         // backgroundColor:'gold',
         flexDirection:'row',
         alignItems:'center',
-        padding:10,
+        // padding:10,
         marginTop:10,
         borderBottomColor:sty.themehui,
         borderBottomWidth:1

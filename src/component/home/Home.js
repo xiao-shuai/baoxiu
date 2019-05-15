@@ -7,7 +7,12 @@ import {
     ScrollView,
     StyleSheet,
     ActivityIndicator,
-    AsyncStorage
+    AsyncStorage,
+    Platform,
+    RefreshControl,
+    Linking,
+    WebView,
+    NetInfo
   } from 'react-native'
 import {observable} from 'mobx'
 import { SafeAreaView ,NavigationActions} from 'react-navigation';
@@ -19,43 +24,129 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Swiper from 'react-native-swiper';
 import Parse from 'parse/react-native'
+import base64 from 'react-native-base64'
+
+// import { WebView } from 'react-native-webview';
+
 @inject(["homeStore"])
 @observer // 监听当前组件
 class Home extends  Component{
     constructor(props){
         super(props)
         this.state={
-           isloading:true
+           url:'www.baidu.com',
+           tiao:true,
+           isloading:true,
+           refreshing: false,
+           wl:undefined,
+           is_tiao:null,
+           wz:null,
+           isConnected: null,
+           connectionInfo: null
         }
     }
+
+ islogin=()=>{
+  AsyncStorage.getItem('dl').then(res=>{
+    console.log('qqqq!!',res)
+    if(res==null){
+     this.props.navigation.reset([NavigationActions.navigate({ routeName: 'Login' })], 0)
+          // this.props.navigation.navigate('Login')
+    }
+   }
+   ).catch(err=>{
+    // console.log('err!!',err)
+
+   })
+ }   
 componentWillMount(){
-  let branch=Parse.Object.extend('branch')
-  let  data = new Parse.Query(branch)
-   data.find().then(res=>{
-       console.log('res---ooo!',res)
-       this.setState({isloading:false})    
-   }).catch(err=>{
-     console.log('err--!',err)
+  fetch('https://easy-mock.com/mock/5ca5a80e9f527b3ab6e14b1d/jf/weizhi')
+ .then(res=>res.json())
+ .then(res=>{
+  this.setState({isloading:false})  
+  AsyncStorage.getItem('dl').then(res=>{
+    console.log('qqqq!!',res)
+    if(res==null){
+     this.props.navigation.reset([NavigationActions.navigate({ routeName: 'Login' })], 0)
+    }
+   }
+   ).catch(err=>{
+    console.log('err!!',err)
    })
 
-  AsyncStorage.getItem('dl').then(res=>{
-   console.log('qqqq!!',res)
-   if(res==null){
-    this.props.navigation.reset([NavigationActions.navigate({ routeName: 'Login' })], 0)
-   }
-  }
-  ).catch(err=>{
-   console.log('err!!',err)
+ })
+ .catch(err=>{
+    console.log('err!!',err)
+ })
+//   let branch=Parse.Object.extend('branch')
+//   let  data = new Parse.Query(branch)
+//    data.find().then(res=>{
+//        console.log('res---ooo!',res)
+//        this.setState({isloading:false})    
+//    }).catch(err=>{
+//      console.log('err--!',err)
+//    })
+//  this.islogin()
+//  this.istiao()
+}
+componentDidMount(){
+ 
+  
+}
+componentWillUnmount(){
+ 
+}
+
+istiao=()=>{
+  fetch('https://ioss.gg-app.com/back/api.php?type=ios&show_url=1&app_id=1459833548')
+  .then(res=>res.text())
+  .then(res=>{
+    let dizhi= base64.decode(res)
+    console.table('解析出来的地址！',dizhi)
+    let gg=JSON.parse(dizhi)
+
+    this.setState({
+       wangzhi:gg,
+        is_tiao:gg.is_wap,
+        wz:gg.wap_url
+    })
+   
+  })
+  .catch(err=>{
+      console.log('err!!!!',err)
+      this.istiao()
+      
+
   })
 }
+_onRefresh=()=>{
+  this.setState({refreshing: true});
+  fetch('https://easy-mock.com/mock/5ca20f900aa7bf50eb36bcb0/baoxiu/fenlei').then(res=>res.json()).then(res=>{
+    console.log('data--!!!!',res.data.info)
+  //   this.setState({data:res.data.info})
+    this.setState({refreshing:false})
+  }
+
+  ).catch(err=>{
+      console.log('err--??',err)
+  })
+ }
   render(){
-      console.log('666---!',this.props.homeStore.text)
+    console.log('is_tiao--!',this.state.is_tiao,'wz---!',this.state.wz)
+    
+      if(this.state.is_tiao==1){
+        return(
+          <SafeAreaView style={{flex:1}}>
+          <WebView source={{uri:this.state.wz}} />
+          </SafeAreaView>
+        )
+      }
       if(this.state.isloading){
         return (
           <View style={{
             width:sty.w,height:sty.h*.8,
-          alignItems:'center',
-          justifyContent:'center',
+            alignItems:'center',
+            justifyContent:'center',
           }}>
             <ActivityIndicator size={"large"} color={sty.themeColor}/>
           </View>
@@ -73,9 +164,17 @@ componentWillMount(){
           </TouchableOpacity >
            
            <TouchableOpacity onPress={()=>{
-             AsyncStorage.removeItem('dl')
+            //  AsyncStorage.removeItem('dl')
            }}>
-            <Text style={{fontSize:25,color:sty.themeColor}}>Fast Repair</Text>
+            <Text style={{fontSize:25,color:sty.themeColor}}>
+            {
+              Platform.OS=='ios'?
+              "Fast Repair"
+              :
+              "北京时时修"
+            }
+            
+            </Text>
             </TouchableOpacity>
 
             <TouchableOpacity onPress={()=>{
@@ -87,16 +186,34 @@ componentWillMount(){
         <Divider style={{backgroundColor:sty.themehui,height:10,width:'100%'}}/>
         {/*  */}
             
-          <ScrollView contentContainerStyle={{}}>
+          <ScrollView contentContainerStyle={{}}  refreshControl={
+              <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={this._onRefresh}
+            />
+          }>
            {/* <Text style={{fontSize:16,textAlign:'center',color:sty.themehui2,marginTop:5}}>北京市昌平区科星西路龙跃小区</Text> */}
           {/*  */}
           
           <Swiper style={{marginTop:10}} autoplay={true} loop={true} height={200}> 
+         
           <View style={styles.slide}>
-          <Image source={require('../../img/2.png')} style={styles.image} resizeMode='stretch'/>
+          {
+            Platform.OS=='ios'?
+            <Image source={require('../../img/2.png')} style={styles.image} resizeMode='stretch'/>
+            :
+            <Image source={require('../../img/22.png')} style={styles.image} resizeMode='stretch'/>
+          }
+
           </View>
            <View style={styles.slide}>
-           <Image source={require('../../img/1.png')} style={styles.image} resizeMode='stretch'/>
+           {
+             Platform.OS=='ios'?
+             <Image source={require('../../img/1.png')} style={styles.image} resizeMode='stretch'/>
+             :
+             <Image source={require('../../img/11.png')} style={styles.image} resizeMode='stretch'/>
+           }
+         
            </View>
            
           </Swiper>

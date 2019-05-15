@@ -18,12 +18,36 @@ class MyOrder extends Component {
         super(props)
         this.state={
           order:[],
+          show:true
         }
         
     }
 
+ componentWillMount(){
+   fetch('https://easy-mock.com/mock/5ca20f900aa7bf50eb36bcb0/baoxiu/dingdan')
+   .then(res=>res.json())
+   .then(res=>{
+     this.setState({show:false})
+   })
+   .catch(err=>{
+
+   })
+ }   
     render(){
+       
+        if(this.state.show){
+            return (
+              <View style={{
+                width:sty.w,height:sty.h*.8,
+              alignItems:'center',
+              justifyContent:'center',
+              }}>
+                <ActivityIndicator size={"large"} color={sty.themeColor}/>
+              </View>
+            )
+          }
         const data=this.props.homeStore.order
+
         console.log('data--!',data)
         return(
             <SafeAreaView style={sty.contain}>
@@ -43,7 +67,7 @@ class MyOrder extends Component {
                       <Text style={styles.text}>{item.lx} </Text>
                       {
                        item.status==0?   
-                       <Text style={[styles.text,{color:'#00FF00'}]} >预约中</Text>
+                       <Text style={[styles.text,{color:'#32CD32'}]} >预约中</Text>
                        :
                        <Text style={styles.text} >已完成</Text>
                       }

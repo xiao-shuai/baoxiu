@@ -1,6 +1,9 @@
 import React,{Component} from 'react'
 import {View,Text,TouchableOpacity,Image
-    ,ScrollView,StyleSheet,ActivityIndicator,Linking} from 'react-native'
+    ,ScrollView,StyleSheet,
+    ActivityIndicator,
+    Linking,Platform
+} from 'react-native'
 
 import {observable} from 'mobx'
 import { SafeAreaView } from 'react-navigation';
@@ -52,8 +55,15 @@ class HomeDetail  extends Component{
          <ScrollView contentContainerStyle={{width:sty.w,alignItems:'center'}}>
            {/* <LinearGradient colors={['#F2994A','#F2C94C']}> */}
             <View style={{width:'100%',height:sty.h*.25,alignItems:'center',justifyContent:'center'}}>
-            <Image source={require('../../img/logobai.png')} style={{width:sty.w*.5,height:sty.w*.5}} />
+            {
+        Platform.OS=='ios'?
+        <Image source={require('../../img/logobai.png')} style={{width:sty.w*.5,height:sty.w*.5}} />
+        :
+        <Image source={require('../../img/azlogo.png')} style={{width:sty.w*.5,height:sty.w*.5}} />
+            }
+
             </View>
+           
            {/* </LinearGradient> */}
            {/*  */}
          <Divider style={{width:sty.w,height:20,backgroundColor:'#E6E6FA'}} />  

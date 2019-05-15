@@ -6,7 +6,9 @@ import {
     TextInput,
     ScrollView,
     StyleSheet,
-    ActivityIndicator} from 'react-native'
+    ActivityIndicator,
+    
+  } from 'react-native'
 import {observable} from 'mobx'
 import { SafeAreaView } from 'react-navigation';
 import { Divider } from 'react-native-elements'
@@ -17,7 +19,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Swiper from 'react-native-swiper';
 import ImagePicker from 'react-native-image-picker'
-import Picker from 'react-native-picker';
 import DatePicker from 'react-native-datepicker'
 import Toast, {DURATION} from 'react-native-easy-toast'
 import Parse from 'parse/react-native'
@@ -67,13 +68,11 @@ class ZhiJie extends Component{
    }
    getdate=()=>{
     const date = new Date();
-    
     const year = date.getFullYear().toString();
     const month = (date.getMonth()+1).toString();
     const day = date.getDate().toString();
     const final=year+'-'+month+'-'+day
     this.setState({date:final,showdate:final})
-   
    }
   getdata=()=>{
     fetch('https://easy-mock.com/mock/5ca20f900aa7bf50eb36bcb0/baoxiu/fenlei')
@@ -86,10 +85,8 @@ class ZhiJie extends Component{
     })
   } 
 componentWillMount(){
- 
   this.getdate()
   this.getdata()
-
 }
 choosePicker = () => {
   ImagePicker.showImagePicker(this.option, (response) => {
@@ -212,7 +209,7 @@ submit=()=>{
         <View style={{marginTop:15,flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
         <View style={{flexDirection:'row'}}>
             <Text style={{fontSize:18,}}>维修类型 :</Text>
-            <Text style={{fontSize:18,marginLeft:10}}>{name}</Text>
+            <Text style={{fontSize:16,marginLeft:10}}>{name}</Text>
         </View>
         {/* <Ionicons name={'ios-arrow-forward'} size={25} color={sty.themehui2}/> */}
         </View>
@@ -226,22 +223,25 @@ submit=()=>{
         
         <View style={{flexDirection:'row'}} >
             <Text style={{fontSize:18,}}>所在城市 :</Text>
-            <Text style={{fontSize:18,marginLeft:10}}>北京市</Text>
+            <Text style={{fontSize:16,marginLeft:10}}>北京市</Text>
         </View>
 
-        <Ionicons name={'ios-arrow-forward'} size={25} color={sty.themehui2}/>
+        <Ionicons name={'ios-arrow-forward'} size={23} color={sty.themehui2}/>
         </View> 
          </TouchableOpacity>
         <Divider style={{backgroundColor:sty.themehui,height:1,marginTop:10}}/>
         {/* 地址 */}
-        <View style={{flexDirection:'row',marginTop:10}}>
+        <View style={styles.line}>
             <Text style={{fontSize:18,}}>上门地址 :</Text>
             {/* <Text style={{fontSize:18,marginLeft:10}}>北京市</Text> */}
-            <TextInput style={styles.input} placeholder="请输入详细地址" multiline={true} onChangeText={(dz)=>{
+            <TextInput style={styles.input} placeholder="请输入详细地址" 
+            multiline={true} 
+
+            onChangeText={(dz)=>{
             this.setState({dz})
             }}/>
         </View>
-        <Divider style={{backgroundColor:sty.themehui,height:1,marginTop:10}}/>
+        <Divider style={{backgroundColor:sty.themehui,height:1}}/>
         <Text style={{textAlign:'center',marginTop:5,color:sty.themehui2}}>(目前仅支持北京市,后续开放其他城市)</Text>
          {/* time */}
          <View style={{marginTop:15,flexDirection:'row',alignItems:'center'}}>
@@ -313,7 +313,7 @@ this.state.iscover2?
 </View>
 <Divider style={{backgroundColor:sty.themehui,height:1,marginTop:10}}/>
 {/*  */}
- <View style={{flexDirection:'row',marginTop:10}}>
+ <View style={styles.line}>
             <Text style={{fontSize:18,}}>姓            名 :</Text>
             <TextInput style={[styles.input,{width:sty.w*.6}]} 
              multiline={true}
@@ -322,7 +322,7 @@ this.state.iscover2?
             this.setState({xm})
             }}/>
    </View>
-   <Divider style={{backgroundColor:sty.themehui,height:1,marginTop:10}}/>
+   <Divider style={{backgroundColor:sty.themehui,height:1}}/>
    {/*  */}
    <View style={styles.line}>
             <Text style={{fontSize:18,}}>联 系 电 话 :</Text>
@@ -385,7 +385,7 @@ const styles = StyleSheet.create({
     marginBottom:10,alignItems:'center',
     justifyContent:'center'
   },
-  input:{fontSize:18,marginLeft:10,width:'70%'},
+  input:{fontSize:16,marginLeft:10,width:'70%'},
   v_text:{
     fontSize:sty.w*.25,color:sty.themehui,fontWeight:'300'
   },

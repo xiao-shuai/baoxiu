@@ -17,9 +17,11 @@ import LinearGradient from 'react-native-linear-gradient';
 import {
   View,Text,
   TouchableOpacity,
-  Image
-  ,ScrollView,StyleSheet,
-  ActivityIndicator} from 'react-native'
+  Image,ScrollView,
+  StyleSheet,
+  ActivityIndicator,
+  Platform
+} from 'react-native'
 
 const BottomTab=createBottomTabNavigator(
     {
@@ -143,7 +145,8 @@ const AllStack=createStackNavigator({
     ZhiJie:{
       screen:ZhiJie,
       navigationOptions:()=>({
-         title:'Fast Repair',
+        //  title:'Fast Repair',
+        title:Platform.OS=='ios'?'Fast Repair':'北京时时修',
          headerTintColor:'white',
          headerStyle: {
           backgroundColor:sty.themeColor,
@@ -153,7 +156,8 @@ const AllStack=createStackNavigator({
     JiaDian:{
       screen:JiaDian,
       navigationOptions:()=>({
-         title:'Fast Repair',
+        //  title:'Fast Repair',
+        title:Platform.OS=='ios'?'Fast Repair':'北京时时修',
          headerTintColor:'white',
          headerStyle: {
           backgroundColor:sty.themeColor,

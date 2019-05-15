@@ -8,11 +8,14 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "jcore-react-native": "^1.3.2",
+    "jpush-react-native": "^2.5.3",
     "mobx": "^5.9.4",
     "mobx-react": "^5.4.3",
     "parse": "^2.3.2",
     "react": "16.8.3",
     "react-native": "0.59.2",
+    "react-native-base64": "0.0.2",
     "react-native-data-table": "^0.2.1",
     "react-native-datepicker": "^1.7.2",
     "react-native-easy-toast": "^1.2.0",
@@ -23,9 +26,11 @@
     "react-native-linear-gradient": "^2.5.4",
     "react-native-picker": "^4.3.7",
     "react-native-scrollable-tab-view": "^0.10.0",
+    "react-native-splash-screen": "^3.2.0",
     "react-native-swiper": "^1.5.14",
     "react-native-touchable-scale": "^2.0.0",
     "react-native-vector-icons": "^6.4.2",
+    "react-native-webview": "^5.7.0",
     "react-navigation": "^3.5.1"
   },
   "devDependencies": {

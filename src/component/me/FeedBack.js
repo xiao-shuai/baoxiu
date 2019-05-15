@@ -8,14 +8,27 @@ import { Divider } from 'react-native-elements'
 import {sty} from '../../config/styles'
 import TouchableScale from 'react-native-touchable-scale';
 import Toast, {DURATION} from 'react-native-easy-toast'
+@inject(["homeStore"])
+@observer // 监听当前组件
 class FeedBack extends  Component{
     constructor(props){
         super(props)
         this.state={
-
+             time:undefined
         }
     }
 
+    getdate=()=>{
+        const date = new Date();
+        const year = date.getFullYear().toString();
+        const month = (date.getMonth()+1).toString();
+        const day = date.getDate().toString();
+        const final=year+'-'+month+'-'+day
+        this.setState({time:final})
+       }
+componentWillMount(){
+    this.getdate()
+  }  
  sbmt=()=>{
     if(this.state.text==undefined){
         this.refs.toast.show('Please enter the content',1000)
@@ -28,6 +41,10 @@ class FeedBack extends  Component{
             },
             
            }).then(res=>res.json()).then(res=>{
+               let a={
+                   con:this.state.text
+               }
+               this.props.homeStore.updatefk(a)
               this.refs.toast.show('Feedback success',1000)
               this.setState({text:undefined})
            }).catch(err=>{
@@ -36,6 +53,8 @@ class FeedBack extends  Component{
     }
  }
   render(){
+      const time=this.state.time
+      const con=this.props.homeStore.fk
       return(
           <SafeAreaView style={sty.contain}>
           <ScrollView contentContainerStyle={{alignItems:'center'}}>
@@ -53,6 +72,23 @@ class FeedBack extends  Component{
           }} style={ys.btn} >  
          <Text style={{fontSize:18,color:'white',}}>提 交</Text>
           </TouchableScale>
+          {/* lishi */}
+          <View style={{width:sty.w*.95}}>
+          <Text style={{marginTop:10,color:sty.themehui2}}>反馈记录:</Text>
+          </View>
+          {
+              con.map((item,index)=>{
+             return(
+                <View style={{width:sty.w*.95}}>
+               
+                <Text style={{fontSize:16,marginTop:10}}>{item.con}</Text>
+                <Text style={{marginTop:10,color:sty.themehui2}}>{time}</Text>
+                <Divider style={{width:'100%',marginTop:10}}/>
+                </View>
+             )
+              })
+          }
+
          
           </ScrollView>
     <Toast

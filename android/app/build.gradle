@@ -95,18 +95,25 @@ def enableProguardInReleaseBuilds = false
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
-
+//关闭AS校验我们的资源文件，或者说是PNG等图片
+   aaptOptions.cruncherEnabled = false
+   aaptOptions.useNewCruncher = false
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
     defaultConfig {
-        applicationId "com.baoxiu"
+        applicationId "com.bjssx.zl01"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        manifestPlaceholders = [
+                JPUSH_APPKEY: "509983803820c3048e0d4009",
+                APP_CHANNEL : "default"
+        ]
+
     }
     splits {
         abi {
@@ -116,10 +123,27 @@ android {
             include "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
         }
     }
+     signingConfigs {
+
+   release {
+
+       storeFile file(MYAPP_RELEASE_STORE_FILE)
+
+       storePassword MYAPP_RELEASE_STORE_PASSWORD
+
+       keyAlias MYAPP_RELEASE_KEY_ALIAS
+
+       keyPassword MYAPP_RELEASE_KEY_PASSWORD
+
+   }
+
+ }
     buildTypes {
         release {
+            
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.release
         }
     }
     // applicationVariants are e.g. debug, release
@@ -139,6 +163,9 @@ android {
 
 dependencies {
     implementation project(':react-native-picker')
+    implementation project(':jcore-react-native')
+    implementation project(':jpush-react-native')
+    implementation project(':react-native-splash-screen')
     implementation project(':react-native-image-picker')
     implementation project(':react-native-linear-gradient')
     implementation project(':react-native-vector-icons')

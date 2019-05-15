@@ -6,7 +6,7 @@ import {
     StyleSheet,
 ActivityIndicator,
 RefreshControl
-} from 'react-native'
+} from 'react-native' 
 import {observable} from 'mobx'
 import { SafeAreaView } from 'react-navigation';
 import { Divider } from 'react-native-elements'
