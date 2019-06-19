@@ -110,7 +110,7 @@ android {
         versionCode 1
         versionName "1.0"
         manifestPlaceholders = [
-                JPUSH_APPKEY: "509983803820c3048e0d4009",
+                JPUSH_APPKEY: "87f367a802cad72f873acf4d",
                 APP_CHANNEL : "default"
         ]
 
@@ -162,6 +162,7 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-webview')
     implementation project(':react-native-picker')
     implementation project(':jcore-react-native')
     implementation project(':jpush-react-native')

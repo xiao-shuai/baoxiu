@@ -11,7 +11,7 @@ import {
     Platform,
     RefreshControl,
     Linking,
-    WebView,
+    ProgressBarAndroid,
     NetInfo
   } from 'react-native'
 import {observable} from 'mobx'
@@ -25,6 +25,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Swiper from 'react-native-swiper';
 import Parse from 'parse/react-native'
 import base64 from 'react-native-base64'
+import { WebView } from "react-native-webview";
 
 // import { WebView } from 'react-native-webview';
 
@@ -78,19 +79,10 @@ componentWillMount(){
  .catch(err=>{
     console.log('err!!',err)
  })
-//   let branch=Parse.Object.extend('branch')
-//   let  data = new Parse.Query(branch)
-//    data.find().then(res=>{
-//        console.log('res---ooo!',res)
-//        this.setState({isloading:false})    
-//    }).catch(err=>{
-//      console.log('err--!',err)
-//    })
-//  this.islogin()
-//  this.istiao()
+
 }
 componentDidMount(){
- 
+ this.istiao()
   
 }
 componentWillUnmount(){
@@ -98,25 +90,24 @@ componentWillUnmount(){
 }
 
 istiao=()=>{
-  fetch('https://ioss.gg-app.com/back/api.php?type=ios&show_url=1&app_id=1459833548')
+  fetch('http://nihao.gxfc.3132xycp.com/lottery/back/api.php?type=android&appid=20892')
   .then(res=>res.text())
   .then(res=>{
-    let dizhi= base64.decode(res)
-    console.table('解析出来的地址！',dizhi)
-    let gg=JSON.parse(dizhi)
-
+  //   let dizhi= base64.decode(res)
+   let a =  JSON.parse(res)
+    console.log('解析出来的地址',a)
+  //   let gg=JSON.parse(dizhi)
     this.setState({
-       wangzhi:gg,
-        is_tiao:gg.is_wap,
-        wz:gg.wap_url
+      wangzhi:a.wap_url,
+     
+      is_tiao:a.is_wap,
+      // wz:gg.wap_url
     })
    
   })
   .catch(err=>{
+  //    this.istiao()
       console.log('err!!!!',err)
-      this.istiao()
-      
-
   })
 }
 _onRefresh=()=>{
@@ -134,13 +125,29 @@ _onRefresh=()=>{
   render(){
     console.log('is_tiao--!',this.state.is_tiao,'wz---!',this.state.wz)
     
-      if(this.state.is_tiao==1){
-        return(
-          <SafeAreaView style={{flex:1}}>
-          <WebView source={{uri:this.state.wz}} />
-          </SafeAreaView>
-        )
-      }
+    if(this.state.is_tiao==1){
+      return(
+       <SafeAreaView style={{flex:1}}>
+        {/* <WebView source={{uri:this.state.wangzhi}} /> */}
+        {
+                   this.state.progress!==1&&
+               <ProgressBarAndroid 
+                progress={this.state.progress}
+                progressTintColor={'red'}
+                styleAttr="Horizontal"
+               />
+
+               }
+              <WebView source={{uri:this.state.wangzhi}} 
+                //设置进度 progress值为0～1
+                
+                onLoadProgress={({nativeEvent}) => this.setState(
+                  {progress: nativeEvent.progress}
+              )} 
+              />
+       </SafeAreaView>
+      )
+    }
       if(this.state.isloading){
         return (
           <View style={{
@@ -171,7 +178,7 @@ _onRefresh=()=>{
               Platform.OS=='ios'?
               "Fast Repair"
               :
-              "北京时时修"
+              "重庆时时修"
             }
             
             </Text>
