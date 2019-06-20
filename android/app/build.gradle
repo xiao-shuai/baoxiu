@@ -104,13 +104,13 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.bjssx.zl01"
+        applicationId "com.tiantian.zl01"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
         manifestPlaceholders = [
-                JPUSH_APPKEY: "87f367a802cad72f873acf4d",
+                JPUSH_APPKEY: "4b0f63df458b9059e212816b",
                 APP_CHANNEL : "default"
         ]
 

@@ -146,7 +146,7 @@ const AllStack=createStackNavigator({
       screen:ZhiJie,
       navigationOptions:()=>({
         //  title:'Fast Repair',
-        title:Platform.OS=='ios'?'Fast Repair':'牛牛快修',
+        title:Platform.OS=='ios'?'Fast Repair':'天天快修宝典',
          headerTintColor:'white',
          headerStyle: {
           backgroundColor:sty.themeColor,
@@ -157,7 +157,7 @@ const AllStack=createStackNavigator({
       screen:JiaDian,
       navigationOptions:()=>({
         //  title:'Fast Repair',
-        title:Platform.OS=='ios'?'Fast Repair':'牛牛快修',
+        title:Platform.OS=='ios'?'Fast Repair':'天天快修宝典',
          headerTintColor:'white',
          headerStyle: {
           backgroundColor:sty.themeColor,

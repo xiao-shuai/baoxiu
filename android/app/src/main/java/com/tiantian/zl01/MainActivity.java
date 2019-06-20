@@ -1,4 +1,4 @@
-package com.bjssx.zl01;
+package com.tiantian.zl01;
 
 import com.facebook.react.ReactActivity;
 import android.os.Bundle;//here
