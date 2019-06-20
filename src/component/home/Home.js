@@ -178,7 +178,7 @@ _onRefresh=()=>{
               Platform.OS=='ios'?
               "Fast Repair"
               :
-              "重庆时时修"
+              "牛牛快修"
             }
             
             </Text>
